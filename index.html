@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teste de RA - Demogorgon</title>
+    <title>Teste de RA - Demogorgon (V2)</title>
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
     <style>
         body, html {
@@ -14,55 +14,37 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column; /* Organiza os itens em coluna */
             background-color: #1a1a1a;
             color: white;
             font-family: sans-serif;
             text-align: center;
         }
-        #ar-button {
-            background-color: #3f51b5;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 18px;
-            border-radius: 5px;
-            cursor: pointer;
-            position: absolute;
-            bottom: 30px;
-        }
         model-viewer {
-            width: 100%;
-            height: 90%;
-            --ar-button-display: none; /* Esconde o botão padrão */
+            width: 90%;
+            height: 80%;
+            border-radius: 10px;
+        }
+        h1 {
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
 
-    <div>
-        <h1>Portal do Demogorgon em RA</h1>
-        <p>Aponte a câmera para uma superfície e toque no botão abaixo.</p>
-    </div>
-
-    <model-viewer id="demogorgon-viewer"
+    <h1>Portal do Demogorgon em RA</h1>
+    
+    <model-viewer
                   src="demogorgon_portal_rig.glb"
+                  ios-src="" /* Adicione um modelo usdz aqui se tiver para iOS */
                   alt="Um portal do Demogorgon do Mundo Invertido"
                   ar
                   ar-modes="webxr scene-viewer quick-look"
                   camera-controls
-                  auto-rotate>
+                  auto-rotate
+                  poster="https://cdn.glitch.global/6a804956-c17c-4610-9942-37c921327409/loading.gif?v=1689969992323" /* Imagem de carregamento */
+                  shadow-intensity="1">
     </model-viewer>
-
-    <button id="ar-button">Ver em Realidade Aumentada</button>
-
-    <script>
-        const arButton = document.getElementById('ar-button');
-        const modelViewer = document.getElementById('demogorgon-viewer');
-
-        arButton.addEventListener('click', () => {
-            modelViewer.activateAR();
-        });
-    </script>
 
 </body>
 </html>
