@@ -3,57 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teste de RA - Ativação por Toque</title>
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+    <title>Carregando Experiência RA</title>
     <style>
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
-        model-viewer { width: 100%; height: 100%; --ar-status-prompt-display: none; }
-        #ar-prompt {
-            position: absolute;
-            left: 50%;
-            bottom: 30px;
-            transform: translateX(-50%);
-            text-align: center;
-            padding: 12px;
-            border-radius: 8px;
-            background: rgba(0, 0, 0, 0.7);
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: #121212;
             color: white;
-            font-family: sans-serif;
-            font-size: 16px;
+            font-family: 'Helvetica Neue', sans-serif;
+        }
+        #loader-container {
+            text-align: center;
             display: none; /* Começa oculto */
+        }
+        #start-button {
+            padding: 15px 30px;
+            font-size: 18px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #start-button:hover {
+            background-color: #0056b3;
+        }
+        .loader {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #007bff;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1.5s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
 
-    <model-viewer id="bike-viewer"
-                  src="bicicleta-will.glb"
-                  alt="Um modelo 3D de uma bicicleta"
-                  ar
-                  ar-modes="webxr scene-viewer quick-look"
-                  camera-controls
-                  touch-action="pan-y"
-                  ios-src="bicicleta-will.usdz">
-    </model-viewer>
+    <button id="start-button">Iniciar Experiência RA</button>
 
-    <div id="ar-prompt">Toque no objeto para iniciar a câmera</div>
+    <div id="loader-container">
+        <p>Preparando a câmera e o ambiente...</p>
+        <div class="loader"></div>
+        <p><small>Isso pode levar alguns segundos.</small></p>
+    </div>
 
     <script>
-        const modelViewer = document.querySelector('#bike-viewer');
-        const arPrompt = document.querySelector('#ar-prompt');
+        const startButton = document.getElementById('start-button');
+        const loaderContainer = document.getElementById('loader-container');
 
-        modelViewer.addEventListener('load', () => {
-            // Mostra o aviso para tocar na tela
-            arPrompt.style.display = 'block';
-            
-            // Define um evento de clique para ativar a RA
-            modelViewer.addEventListener('click', () => {
-                console.log('Tentando ativar o modo RA...');
-                modelViewer.activateAR().catch((error) => {
-                    console.error('Falha ao ativar a RA:', error);
-                    alert('Não foi possível iniciar a câmera. Verifique as permissões e se o seu navegador é compatível.');
-                });
-            });
+        startButton.addEventListener('click', () => {
+            // Esconde o botão e mostra a barra de carregamento
+            startButton.style.display = 'none';
+            loaderContainer.style.display = 'block';
+
+            // Redireciona para a página do visualizador após um pequeno atraso
+            // para que o usuário veja a animação de carregamento.
+            setTimeout(() => {
+                window.location.href = 'viewer.html';
+            }, 1500); // 1.5 segundos
         });
     </script>
 
