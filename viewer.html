@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizador RA - Bicicleta</title>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+    <style>
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
+        model-viewer { width: 100%; height: 100%; }
+    </style>
+</head>
+<body>
+
+    <model-viewer id="bike-viewer"
+                  src="bicicleta-will.glb"
+                  alt="Um modelo 3D de uma bicicleta"
+                  ar
+                  ar-modes="webxr"
+                  ar-placement="floor"
+                  ios-src="bicicleta-will.usdz">
+    </model-viewer>
+
+    <script>
+        // Aguarda o carregamento completo da página
+        window.addEventListener('load', () => {
+            const modelViewer = document.querySelector('#bike-viewer');
+
+            // Função para tentar ativar a RA
+            const activateAR = () => {
+                // Tenta ativar o modo RA. Como esta página foi aberta por um clique do usuário,
+                // o navegador permitirá a solicitação de permissão da câmera.
+                modelViewer.activateAR().catch((error) => {
+                    console.error('Falha ao ativar a RA automaticamente:', error);
+                    alert('Não foi possível iniciar a câmera. Por favor, verifique as permissões do navegador e tente novamente.');
+                });
+            };
+
+            // Espera o modelo 3D ser carregado antes de tentar ativar a RA
+            modelViewer.addEventListener('load', activateAR, { once: true });
+        });
+    </script>
+
+</body>
+</html>
